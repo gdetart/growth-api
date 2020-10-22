@@ -54,11 +54,14 @@ app.use(
 console.log(listEndpoints(app));
 
 mongoose
-  .connect(`mongodb://localhost:27017/simbioza`, {
-    useFindAndModify: false,
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
-  })
+  .connect(
+    `mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASSWORD}@cluster0.wa0l0.mongodb.net/test?retryWrites=true&w=majority`,
+    {
+      useFindAndModify: false,
+      useNewUrlParser: true,
+      useUnifiedTopology: true,
+    }
+  )
   .then(
     app.listen(port, () => {
       console.log("Running on PORT", port);
