@@ -12,7 +12,7 @@ route.post("/", async (req, res, nex) => {
     const newClient = new clientModel(req.body);
     const client = await newClient.save();
     const tokens = await authenticate(client);
-    res.cookie("tokens", { ...tokens }).send(client);
+    res.cookie("tokens", { ...tokens },{httpOnly:true,secure:true,sameSite:'none'}).send(client);
   } catch (error) {
     nex(error);
   }
