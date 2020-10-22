@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "nodemon -r dotenv/config ./src/server.js",
+    "start": "node ./src/server.js",
     "build": "node ./src/server.js",
     "debug": "node -r dotenv/config ./src/server.js"
   },
