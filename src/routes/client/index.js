@@ -51,7 +51,7 @@ route.post("/login", async (req, res, nex) => {
     if (user.email === email) {
       user.password = "";
       const { accessToken, refreshToken } = await authenticate(user);
-      res.cookie("tokens", { accessToken, refreshToken }, {}); //sameSite="none",httpOnly:true,secure=true});
+      res.cookie("tokens", { accessToken, refreshToken }, {sameSite="none",httpOnly:true,secure=true});
       res.send(user);
     } else {
       nex(user);
@@ -84,7 +84,7 @@ route.post("/refresh", async (req, res, nex) => {
         accessToken,
         refreshToken,
       },
-      {}
+      {sameSite="none",httpOnly:true}
     )
     .send(userData);
 });
