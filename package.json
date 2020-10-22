@@ -6,7 +6,6 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node ./src/server.js",
-    "build": "node ./src/server.js",
     "debug": "node -r dotenv/config ./src/server.js"
   },
   "repository": {
@@ -32,7 +31,6 @@
     "jsonwebtoken": "^8.5.1",
     "mongoose": "^5.9.21",
     "multer": "^1.4.2",
-    "nodemon": "^2.0.4",
     "validator": "^13.1.1"
   }
 }
