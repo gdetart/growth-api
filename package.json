@@ -6,7 +6,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node ./src/server.js",
-    "build": "node ./src/server.js",
+    "build": "serve -s build ./src/server.js",
     "debug": "node -r dotenv/config ./src/server.js"
   },
   "repository": {
@@ -17,7 +17,7 @@
   "author": "Detart Grajcevci",
   "license": "ISC",
   "engines": {
-    "node":"14.2.0"
+    "node": "14.2.0"
   },
   "dependencies": {
     "axios": "^0.20.0",
