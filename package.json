@@ -1,0 +1,35 @@
+{
+  "name": "simbioza-nodejs",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "nodemon -r dotenv/config ./src/server.js",
+    "build": "node ./src/server.js",
+    "debug": "node -r dotenv/config ./src/server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/gdetart/linkedinapi"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "axios": "^0.20.0",
+    "bcrypt": "^5.0.0",
+    "cloudinary": "^1.22.0",
+    "cookie-parser": "^1.4.5",
+    "cors": "^2.8.5",
+    "dotenv": "^8.2.0",
+    "express": "^4.17.1",
+    "express-list-endpoints": "^4.0.1",
+    "fs-extra": "^9.0.1",
+    "jsonwebtoken": "^8.5.1",
+    "mongoose": "^5.9.21",
+    "multer": "^1.4.2",
+    "nodemon": "^2.0.4",
+    "validator": "^13.1.1"
+  }
+}
