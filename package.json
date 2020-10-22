@@ -14,8 +14,11 @@
     "url": "git+https://github.com/gdetart/linkedinapi"
   },
   "keywords": [],
-  "author": "",
+  "author": "Detart Grajcevci",
   "license": "ISC",
+  "engines": {
+    "node":"14.2.0"
+  },
   "dependencies": {
     "axios": "^0.20.0",
     "bcrypt": "^5.0.0",
