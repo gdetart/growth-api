@@ -54,7 +54,7 @@ route.post("/login", async (req, res, nex) => {
       res.cookie(
         "tokens",
         { accessToken, refreshToken },
-        { sameSite: "none", httpOnly: true, secure: true }
+        // { sameSite: "none", httpOnly: true, secure: true }
       );
       res.send(user);
     } else {
