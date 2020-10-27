@@ -89,13 +89,18 @@ route.post("/refresh", async (req, res, nex) => {
   const userData = await clientModel.findById(user);
   res
     .cookie(
-      "tokens",
-      {
-        accessToken,
-        refreshToken,
-      },
+      "accesstoken",
+
+      accessToken,
+
       { sameSite: "none", httpOnly: true, secure: true, path: "/" }
     )
+    .cookie("refreshToken", refreshToken, {
+      sameSite: "none",
+      httpOnly: true,
+      secure: true,
+      path: "/",
+    })
     .send(userData);
 });
 
