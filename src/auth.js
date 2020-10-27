@@ -13,8 +13,10 @@ const authorize = async (req, res, next) => {
     }
 
     const { accessToken, refreshToken } = req.cookies;
+    console.log("line16 authjs", req.cookies);
 
     const decoded = await verifyAccessToken(accessToken);
+    console.log("line 19 authjs", decoded);
     const user = await clientModel.findById(decoded._id);
     if (!user) {
       const err = new Error();

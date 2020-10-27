@@ -11,13 +11,20 @@ route.post("/", async (req, res, nex) => {
   try {
     const newClient = new clientModel(req.body);
     const client = await newClient.save();
-    const tokens = await authenticate(client);
+    const { accessToken, refreshToken } = await authenticate(client);
     res
-      .cookie(
-        "tokens",
-        { ...tokens },
-        { httpOnly: true, secure: true, sameSite: "none" }
-      )
+      .cookie("accessToken", accessToken, {
+        sameSite: "none",
+        httpOnly: true,
+        secure: true,
+        path: "/",
+      })
+      .cookie("refreshToken", refreshToken, {
+        sameSite: "none",
+        httpOnly: true,
+        secure: true,
+        path: "/",
+      })
       .send(client);
   } catch (error) {
     nex(error);
@@ -58,7 +65,7 @@ route.post("/login", async (req, res, nex) => {
       user.password = "";
       const { accessToken, refreshToken } = await authenticate(user);
       res
-        .cookie("accessTokens", accessToken, {
+        .cookie("accessToken", accessToken, {
           sameSite: "none",
           httpOnly: true,
           secure: true,
@@ -92,11 +99,11 @@ route.get("/", authorize, async (req, res, nex) => {
 route.post("/refresh", async (req, res, nex) => {
   if (!req.cookies) res.status(404).send("Please authenticate");
   const { accessToken, refreshToken, user } = await generateNewTokens(
-    req.cookies.tokens.refreshToken
+    req.cookies.refreshToken
   );
   const userData = await clientModel.findById(user);
   res
-    .cookie("accessTokens", accessToken, {
+    .cookie("accessToken", accessToken, {
       sameSite: "none",
       httpOnly: true,
       secure: true,
