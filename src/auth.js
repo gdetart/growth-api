@@ -5,14 +5,14 @@ const clientModel = require("./routes/client/schema");
 const authorize = async (req, res, next) => {
   try {
     // check if COOKIES contain tokens !!
-    if (!req.cookies.tokens) {
+    if (!req.cookies) {
       const err = new Error();
       err.message = "Please authenticate";
       err.httpStatusCode = 401;
       next(err);
     }
 
-    const { accessToken, refreshToken } = req.cookies.tokens;
+    const { accessToken, refreshToken } = req.cookies;
 
     const decoded = await verifyAccessToken(accessToken);
     const user = await clientModel.findById(decoded._id);

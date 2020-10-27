@@ -12,7 +12,13 @@ route.post("/", async (req, res, nex) => {
     const newClient = new clientModel(req.body);
     const client = await newClient.save();
     const tokens = await authenticate(client);
-    res.cookie("tokens", { ...tokens },{httpOnly:true,secure:true,sameSite:'none'}).send(client);
+    res
+      .cookie(
+        "tokens",
+        { ...tokens },
+        { httpOnly: true, secure: true, sameSite: "none" }
+      )
+      .send(client);
   } catch (error) {
     nex(error);
   }
@@ -51,12 +57,20 @@ route.post("/login", async (req, res, nex) => {
     if (user.email === email) {
       user.password = "";
       const { accessToken, refreshToken } = await authenticate(user);
-      res.cookie(
-        "tokens",
-        { accessToken, refreshToken },
-        { sameSite: "none", httpOnly: true, secure: true,path:"/"}
-      );
-      res.send(user);
+      res
+        .cookie("accessTokens", accessToken, {
+          sameSite: "none",
+          httpOnly: true,
+          secure: true,
+          path: "/",
+        })
+        .cookie("refreshToken", refreshToken, {
+          sameSite: "none",
+          httpOnly: true,
+          secure: true,
+          path: "/",
+        })
+        .send(user);
     } else {
       nex(user);
     }
@@ -82,14 +96,18 @@ route.post("/refresh", async (req, res, nex) => {
   );
   const userData = await clientModel.findById(user);
   res
-    .cookie(
-      "tokens",
-      {
-        accessToken,
-        refreshToken,
-      },
-      { sameSite: "none", httpOnly: true, secure: true,path:"/" }
-    )
+    .cookie("accessTokens", accessToken, {
+      sameSite: "none",
+      httpOnly: true,
+      secure: true,
+      path: "/",
+    })
+    .cookie("refreshToken", refreshToken, {
+      sameSite: "none",
+      httpOnly: true,
+      secure: true,
+      path: "/",
+    })
     .send(userData);
 });
 
