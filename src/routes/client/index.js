@@ -16,13 +16,13 @@ route.post("/", async (req, res, nex) => {
       .cookie("accessToken", accessToken, {
         sameSite: "none",
         httpOnly: true,
-        secure: true,
+        secure: false,
         path: "/",
       })
       .cookie("refreshToken", refreshToken, {
         sameSite: "none",
         httpOnly: true,
-        secure: true,
+        secure: false,
         path: "/",
       })
       .send(client);
@@ -66,15 +66,15 @@ route.post("/login", async (req, res, nex) => {
       const { accessToken, refreshToken } = await authenticate(user);
       res
         .cookie("accessToken", accessToken, {
-          sameSite: "none",
+          // sameSite: "none",
           httpOnly: true,
-          secure: true,
+          secure: false,
           path: "/",
         })
         .cookie("refreshToken", refreshToken, {
-          sameSite: "none",
+          // sameSite: "none",
           httpOnly: true,
-          secure: true,
+          secure: false,
           path: "/",
         })
         .send(user);
@@ -106,13 +106,13 @@ route.post("/refresh", async (req, res, nex) => {
     .cookie("accessToken", accessToken, {
       sameSite: "none",
       httpOnly: true,
-      secure: true,
+      secure: false,
       path: "/",
     })
     .cookie("refreshToken", refreshToken, {
       sameSite: "none",
       httpOnly: true,
-      secure: true,
+      secure: false,
       path: "/",
     })
     .send(userData);
