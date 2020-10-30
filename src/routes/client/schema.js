@@ -16,7 +16,7 @@ const clientSchema = new Schema({
 });
 
 //THIS IS A PRE SAVE FUNCTION THAT CHECKS FOR EMAIL, AND PASSWORD VALIDATION
-//IT CONVERTS THE PASSWORD INTO HASHED STRING !
+//ALSO  CONVERTS THE PASSWORD INTO HASHED STRING !
 clientSchema.pre("save", async function (next) {
   const user = this;
 
@@ -49,22 +49,30 @@ clientSchema.pre("save", async function (next) {
   }
 });
 
+//FINDS A CLIENT BASED ON HIS EMAIL AND CHECK FOR PASSWORD VALIDITY.
 clientSchema.statics.findByCred = async (email, password) => {
-  let client = await clientModel.findOne({ email });
-  if (!client) return { msg: "client not found !!!" };
-  const doesMatch = await bcrypt.compare(password, client.password);
-  if (!doesMatch) {
-    const err = new Error();
-    err.message = "Unable to Login,check Credentials";
-    err.httpStatusCode = 404;
-    return err;
-  } else {
-    delete client.password;
-    delete client.refreshTokens;
-    return client;
+  try {
+    let client = await clientModel.findOne({ email });
+
+    if (!client) return { msg: "client not found !!!" };
+
+    const doesMatch = await bcrypt.compare(password, client.password);
+    if (!doesMatch) {
+      const err = new Error();
+      err.message = "Unable to Login,check Credentials";
+      err.httpStatusCode = 404;
+      throw err;
+    } else {
+      const { name, surname, email, _id, image, device } = client;
+      return Object.freeze({ name, surname, email, _id, image, device });
+    }
+  } catch (error) {
+    error.message = "Exception while finding user";
+    throw error;
   }
 };
 
+//COMPARES THE PASSWORDS IF EVERYTHING IS OKAY IT CHANGES THE PASSWORD.
 clientSchema.static.changePassword = async (_id, oldPassword, newPassword) => {
   try {
     let client = await clientModel.findById(_id);
@@ -77,6 +85,7 @@ clientSchema.static.changePassword = async (_id, oldPassword, newPassword) => {
     return true;
   } catch (error) {}
 };
+
 const clientModel = model("Client", clientSchema);
 
 module.exports = clientModel;

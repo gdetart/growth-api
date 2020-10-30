@@ -14,7 +14,6 @@ const {
   genericErrorHandler,
   authorizationHandler,
 } = require("./errorHandlers");
-const { authorize } = require("./auth");
 
 cloudinary.config({
   cloud_name: process.env.API_CloudName,
@@ -38,9 +37,10 @@ const corsOptions = {
   },
   credentials: true,
 };
+
 app.use(express.json());
 app.use(cookieParser());
-app.use(cors({ credentials: true, origin: "*" }));
+app.use(cors(corsOptions));
 
 app.use("/client", clientRoute);
 app.use("/blog", blogRoute);
@@ -51,6 +51,7 @@ app.use(
   authorizationHandler,
   genericErrorHandler
 );
+
 console.log(listEndpoints(app));
 
 mongoose
@@ -62,9 +63,5 @@ mongoose
       useUnifiedTopology: true,
     }
   )
-  .then(
-    app.listen(port, () => {
-      console.log("Running on PORT", port);
-    })
-  )
+  .then(app.listen(port))
   .catch((err) => console.log(err));
