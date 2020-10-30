@@ -70,13 +70,13 @@ const logUserIn = async (req, res, nex) => {
         .cookie("accessToken", accessToken, {
           sameSite: "strict",
           httpOnly: true,
-          secure: false,
+          secure: true,
           path: "/",
         })
         .cookie("refreshToken", refreshToken, {
           sameSite: "strict",
           httpOnly: true,
-          secure: false,
+          secure: true,
           path: "/",
         })
         .send(user);
@@ -99,13 +99,13 @@ const refreshToken = async (req, res, nex) => {
       .cookie("accessToken", accessToken, {
         sameSite: "strict",
         httpOnly: true,
-        secure: false,
+        secure: true,
         path: "/",
       })
       .cookie("refreshToken", refreshToken, {
         sameSite: "strict",
         httpOnly: true,
-        secure: false,
+        secure: true,
         path: "/",
       })
       .send(userData);
