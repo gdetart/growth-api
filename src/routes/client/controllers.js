@@ -21,13 +21,11 @@ const createNewClient = async (req, res, nex) => {
     res
       .cookie("accessToken", accessToken, {
         sameSite: "strict",
-        httpOnly: true,
         secure: true,
         path: "/",
       })
       .cookie("refreshToken", refreshToken, {
         sameSite: "strict",
-        httpOnly: true,
         secure: true,
         path: "/",
       })
@@ -69,13 +67,11 @@ const logUserIn = async (req, res, nex) => {
       res
         .cookie("accessToken", accessToken, {
           sameSite: "strict",
-          httpOnly: true,
           secure: true,
           path: "/",
         })
         .cookie("refreshToken", refreshToken, {
           sameSite: "strict",
-          httpOnly: true,
           secure: true,
           path: "/",
         })
@@ -98,13 +94,11 @@ const refreshToken = async (req, res, nex) => {
     res
       .cookie("accessToken", accessToken, {
         sameSite: "strict",
-        httpOnly: true,
         secure: true,
         path: "/",
       })
       .cookie("refreshToken", refreshToken, {
         sameSite: "strict",
-        httpOnly: true,
         secure: true,
         path: "/",
       })
