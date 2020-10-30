@@ -20,13 +20,13 @@ const createNewClient = async (req, res, nex) => {
     const { accessToken, refreshToken } = await authenticate(client);
     res
       .cookie("accessToken", accessToken, {
-        sameSite: "none",
+        sameSite: "strict",
         httpOnly: true,
         secure: true,
         path: "/",
       })
       .cookie("refreshToken", refreshToken, {
-        sameSite: "none",
+        sameSite: "strict",
         httpOnly: true,
         secure: true,
         path: "/",
@@ -68,13 +68,13 @@ const logUserIn = async (req, res, nex) => {
       const { accessToken, refreshToken } = await authenticate(user);
       res
         .cookie("accessToken", accessToken, {
-          sameSite: "none",
+          sameSite: "strict",
           httpOnly: true,
           secure: false,
           path: "/",
         })
         .cookie("refreshToken", refreshToken, {
-          sameSite: "none",
+          sameSite: "strict",
           httpOnly: true,
           secure: false,
           path: "/",
@@ -97,13 +97,13 @@ const refreshToken = async (req, res, nex) => {
     const userData = await clientModel.findById(user);
     res
       .cookie("accessToken", accessToken, {
-        sameSite: "none",
+        sameSite: "strict",
         httpOnly: true,
         secure: false,
         path: "/",
       })
       .cookie("refreshToken", refreshToken, {
-        sameSite: "none",
+        sameSite: "strict",
         httpOnly: true,
         secure: false,
         path: "/",
