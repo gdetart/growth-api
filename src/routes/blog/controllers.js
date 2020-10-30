@@ -4,7 +4,7 @@ const upload = require("multer")();
 const { join } = require("path");
 const { writeFile, unlink } = require("fs-extra");
 
-export const createPost = async (req, res, nex) => {
+const createPost = async (req, res, nex) => {
   const { title, text } = req.body;
   if (!title || !text) {
     const err = new Error(
@@ -21,7 +21,7 @@ export const createPost = async (req, res, nex) => {
   }
 };
 
-export const createPostImage = async (req, res, nex) => {
+const createPostImage = async (req, res, nex) => {
   try {
     const postID = req.params.id;
     const imgDir = join(
@@ -45,7 +45,7 @@ export const createPostImage = async (req, res, nex) => {
   }
 };
 
-export const getAllPosts = async (req, res, nex) => {
+const getAllPosts = async (req, res, nex) => {
   try {
     const allPosts = await postModel
       .find()
@@ -56,7 +56,7 @@ export const getAllPosts = async (req, res, nex) => {
   }
 };
 
-export const getSinglePost = async (req, res, nex) => {
+const getSinglePost = async (req, res, nex) => {
   try {
     const post = await postModel.findById(req.params.id);
     res.status(200).send(post);
@@ -65,7 +65,7 @@ export const getSinglePost = async (req, res, nex) => {
   }
 };
 
-export const editPost = async (req, res, nex) => {
+const editPost = async (req, res, nex) => {
   try {
     const postID = req.params.id;
     const post = await postModel.findById(postID);
@@ -81,7 +81,7 @@ export const editPost = async (req, res, nex) => {
   }
 };
 
-export const deletePost = async (req, res, nex) => {
+const deletePost = async (req, res, nex) => {
   try {
     const postID = req.params.id;
     const post = await postModel.findById(postID);
@@ -96,3 +96,12 @@ export const deletePost = async (req, res, nex) => {
     nex(error);
   }
 };
+
+module.exports = Object.freeze({
+  createPost,
+  createPostImage,
+  getAllPosts,
+  getSinglePost,
+  editPost,
+  deletePost,
+});

@@ -2,10 +2,9 @@ const clientModel = require("./schema");
 const { join } = require("path");
 const { writeFile, unlink } = require("fs-extra");
 const cloudinary = require("cloudinary").v2;
-const clientModel = require("./schema");
 const { authenticate, generateNewTokens } = require("../../auth");
 
-export const createNewClient = async (req, res, nex) => {
+const createNewClient = async (req, res, nex) => {
   const { name, surname, email, password } = req.body;
 
   if (!name || !surname || !email || !password) {
@@ -38,7 +37,7 @@ export const createNewClient = async (req, res, nex) => {
   }
 };
 
-export const addProfileImage = async (req, res, next) => {
+const addProfileImage = async (req, res, next) => {
   try {
     const imgDir = join(
       __dirname,
@@ -59,14 +58,13 @@ export const addProfileImage = async (req, res, next) => {
   }
 };
 
-export const logUserIn = async (req, res, nex) => {
+const logUserIn = async (req, res, nex) => {
   try {
     const { email, password } = req.body;
+    console.log("email", email);
     let user = await clientModel.findByCred(email, password);
-    if (user.email === email) {
-      delete user.password;
-      delete user.__v;
 
+    if (user.email === email) {
       const { accessToken, refreshToken } = await authenticate(user);
       res
         .cookie("accessToken", accessToken, {
@@ -90,7 +88,7 @@ export const logUserIn = async (req, res, nex) => {
   }
 };
 
-export const refreshToken = async (req, res, nex) => {
+const refreshToken = async (req, res, nex) => {
   try {
     if (!req.cookies) res.status(404).send("Please authenticate");
     const { accessToken, refreshToken, user } = await generateNewTokens(
@@ -116,7 +114,7 @@ export const refreshToken = async (req, res, nex) => {
   }
 };
 
-export const clientById = async (req, res, nex) => {
+const clientById = async (req, res, nex) => {
   try {
     const client = await clientModel.findById(req.client._id, {
       password: 0,
@@ -130,7 +128,7 @@ export const clientById = async (req, res, nex) => {
   }
 };
 
-export const editClient = async (req, res, nex) => {
+const editClient = async (req, res, nex) => {
   if (req.body.password) {
     let newPassword = req.body.password;
     let oldPassword = req.body.oldPassword;
@@ -150,3 +148,12 @@ export const editClient = async (req, res, nex) => {
   let client = await clientModel.findByIdAndUpdate(req.user._id, req.body);
   res.status(200).send(client);
 };
+
+module.exports = Object.freeze({
+  createNewClient,
+  addProfileImage,
+  logUserIn,
+  refreshToken,
+  clientById,
+  editClient,
+});
