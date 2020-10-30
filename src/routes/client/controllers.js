@@ -68,13 +68,13 @@ const logUserIn = async (req, res, nex) => {
       const { accessToken, refreshToken } = await authenticate(user);
       res
         .cookie("accessToken", accessToken, {
-          // sameSite: "none",
+          sameSite: "none",
           httpOnly: true,
           secure: false,
           path: "/",
         })
         .cookie("refreshToken", refreshToken, {
-          // sameSite: "none",
+          sameSite: "none",
           httpOnly: true,
           secure: false,
           path: "/",
