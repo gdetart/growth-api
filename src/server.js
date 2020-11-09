@@ -40,7 +40,6 @@ const corsOptions = {
 
 app.use(express.json());
 app.use(cookieParser());
-app.use(cors(corsOptions));
 
 app.use("/client", clientRoute);
 app.use("/blog", blogRoute);
