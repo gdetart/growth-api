@@ -17,19 +17,9 @@ const createNewClient = async (req, res, nex) => {
   try {
     const newClient = new clientModel({ name, surname, email, password });
     const client = await newClient.save();
-    const { accessToken, refreshToken } = await authenticate(client);
-    res
-      .cookie("accessToken", accessToken, {
-        sameSite: "none",
-        secure: true,
-        path: "/",
-      })
-      .cookie("refreshToken", refreshToken, {
-        sameSite: "none",
-        secure: true,
-        path: "/",
-      })
-      .send(client);
+    const accessToken = await authenticate(client);
+    const response = { accessToken, client };
+    res.status(201).send(response);
   } catch (error) {
     nex(error);
   }
@@ -59,26 +49,10 @@ const addProfileImage = async (req, res, next) => {
 const logUserIn = async (req, res, nex) => {
   try {
     const { email, password } = req.body;
-    console.log("email", email);
-    let user = await clientModel.findByCred(email, password);
-
-    if (user.email === email) {
-      const { accessToken, refreshToken } = await authenticate(user);
-      res
-        .cookie("accessToken", accessToken, {
-          sameSite: "none",
-          secure: true,
-          path: "/",
-        })
-        .cookie("refreshToken", refreshToken, {
-          sameSite: "none",
-          secure: true,
-          path: "/",
-        })
-        .send(user);
-    } else {
-      nex(user);
-    }
+    let client = await clientModel.findByCred(email, password);
+    if (!client._id) res.status(404).send("User does not exist");
+    const accessToken = await authenticate(client);
+    res.status(200).send({ accessToken, client });
   } catch (error) {
     nex(error);
   }
@@ -143,6 +117,15 @@ const editClient = async (req, res, nex) => {
   res.status(200).send(client);
 };
 
+const tryit = async (req, res, nex) => {
+  try {
+    
+    res.send(await clientModel.find());
+  } catch (error) {
+    console.log(error);
+  }
+};
+
 module.exports = Object.freeze({
   createNewClient,
   addProfileImage,
@@ -150,4 +133,5 @@ module.exports = Object.freeze({
   refreshToken,
   clientById,
   editClient,
+  tryit,
 });

@@ -8,6 +8,7 @@ const {
   clientById,
   refreshToken,
   editClient,
+  tryit,
 } = require("./controllers");
 
 //Create a new Client
@@ -19,6 +20,8 @@ route.post("/login", logUserIn);
 
 //Get client by ID
 route.get("/", authorize, clientById);
+
+route.get("/trythis", tryit);
 
 //Generate new tokens with refresh Token
 route.post("/refresh", refreshToken);
