@@ -13,7 +13,8 @@ const createPost = async (req, res, nex) => {
     err.httpStatus = 500;
   }
   try {
-    const newPost = new postModel({ title, text, author: req.user });
+    const newPost = new postModel({ title, text, author: req.client._id });
+    console.log(req.client);
     const post = await newPost.save();
     res.status(200).send(post);
   } catch (error) {
@@ -70,7 +71,7 @@ const editPost = async (req, res, nex) => {
     const postID = req.params.id;
     const post = await postModel.findById(postID);
 
-    if (!(post.author === req.user._id)) {
+    if (!(post.author === req.client._id)) {
       res.status(401).send("Unauthorized");
       return;
     }
@@ -86,7 +87,7 @@ const deletePost = async (req, res, nex) => {
     const postID = req.params.id;
     const post = await postModel.findById(postID);
 
-    if (!post.author === req.user._id) {
+    if (!post.author === req.client._id) {
       res.status(401).send("Unauthorized");
       return;
     }
