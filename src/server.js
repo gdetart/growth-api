@@ -1,6 +1,5 @@
 const express = require("express");
 const app = express();
-const cookieParser = require("cookie-parser");
 const clientRoute = require("./routes/client");
 const blogRoute = require("./routes/blog");
 const listEndpoints = require("express-list-endpoints");
@@ -39,7 +38,7 @@ const corsOptions = {
 };
 
 app.use(express.json());
-app.use(cookieParser());
+app.use(cors(corsOptions));
 
 app.use("/client", clientRoute);
 app.use("/blog", blogRoute);
