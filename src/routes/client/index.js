@@ -21,7 +21,6 @@ route.post("/login", logUserIn);
 //Get client by ID
 route.get("/", authorize, clientById);
 
-route.get("/trythis", tryit);
 
 //Generate new tokens with refresh Token
 route.post("/refresh", refreshToken);
