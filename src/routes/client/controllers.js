@@ -29,13 +29,13 @@ const addProfileImage = async (req, res, next) => {
   try {
     const imgDir = join(
       __dirname,
-      `../../../public/profileImages/${req.user._id + req.file.originalname}`
+      `../../../public/profileImages/${req.client._id + req.file.originalname}`
     );
     await writeFile(imgDir, req.file.buffer);
     const imageURL = await cloudinary.uploader.upload(imgDir);
     console.log(imageURL.secure_url);
 
-    const image = await clientModel.findByIdAndUpdate(req.user._id, {
+    const image = await clientModel.findByIdAndUpdate(req.client._id, {
       image: imageURL.secure_url,
     });
     unlink(imgDir, (err) => console.log(err));
@@ -106,24 +106,15 @@ const editClient = async (req, res, nex) => {
     console.log(req.body);
     try {
       let client = await clientModel.changePassword(
-        req.user._id,
+        req.client._id,
         newPassword,
         oldPassword
       );
       if (!client) res.status(404).send("Something went wrong");
     } catch (error) {}
   }
-  let client = await clientModel.findByIdAndUpdate(req.user._id, req.body);
+  let client = await clientModel.findByIdAndUpdate(req.client._id, req.body);
   res.status(200).send(client);
-};
-
-const tryit = async (req, res, nex) => {
-  try {
-    
-    res.send(await clientModel.find());
-  } catch (error) {
-    console.log(error);
-  }
 };
 
 module.exports = Object.freeze({
@@ -133,5 +124,4 @@ module.exports = Object.freeze({
   refreshToken,
   clientById,
   editClient,
-  tryit,
 });
